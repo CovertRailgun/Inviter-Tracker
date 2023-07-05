@@ -15,7 +15,6 @@ class invite_tracker(commands.Cog):
         self.guild_id = 1122681690683347047
         self.invites = []
         self.location = pathlib.Path(settings.BASE_DIR / 'saved_data' / 'who_invited_member.json')
-        self.n = 0
 
     async def cog_load(self) -> None:
             self.get_invites.start()
@@ -27,10 +26,9 @@ class invite_tracker(commands.Cog):
 
     @tasks.loop(seconds=5)
     async def get_invites(self) -> None:
-        self.n += 1
         guild = self.bot.get_guild(self.guild_id)
         self.invites = await guild.invites()
-        self.log.info(f"updated invites {self.n}") 
+        self.log.debug("updated invites") 
 
     @get_invites.before_loop
     async def before_get_invites(self) -> None:
@@ -54,6 +52,17 @@ class invite_tracker(commands.Cog):
             file.seek(0)
             json.dump(who_invited, file, indent=4) 
         self.log.info("Finished update_join_list")
+
+    @commands.slash_command(description="mod command")
+    @commands.has_guild_permissions(manage_roles=True)
+    async def post_join_list(self, inter: disnake.ApplicationCommandInteraction) -> None:
+        inviter_count = ""
+        with open(self.location, "r") as file:
+            who_invited = json.load(file)
+            for inviter in who_invited:
+                inviter_count = inviter_count + f"<@{inviter}> has invited {who_invited[inviter]} people\n"
+            await inter.response.send_message(inviter_count)
+        self.log.info("post_join_list executed")
 
     @commands.Cog.listener()
     async def on_member_join(self, member) -> None:
