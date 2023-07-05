@@ -62,7 +62,7 @@ class invite_tracker(commands.Cog):
             for inviter in who_invited:
                 inviter_count = inviter_count + f"<@{inviter}> has invited {who_invited[inviter]} people\n"
             await inter.response.send_message(inviter_count)
-        self.log.info("post_join_list executed")
+        self.log.info("post_join_list executed", ephemeral=True)
 
     @commands.Cog.listener()
     async def on_member_join(self, member) -> None:
