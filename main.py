@@ -22,4 +22,4 @@ if __name__ == '__main__':
     Pearl.load_extensions("cogs")
 
 
-    Pearl.run(settings.DISCORD_PEARL_TOKEN)
+    Pearl.run(settings.DISCORD_TOKEN)
