@@ -6,7 +6,7 @@ import pathlib
 
 load_dotenv()
 
-DISCORD_PEARL_TOKEN = os.getenv('DISCORD_TOKEN_PEARL')
+DISCORD_TOKEN = os.getenv('TOKEN_DISCORD')
 
 BASE_DIR = pathlib.Path(__file__).parent
 
