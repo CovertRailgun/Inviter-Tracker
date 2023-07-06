@@ -15,11 +15,11 @@ class bot(commands.InteractionBot):
 
 if __name__ == '__main__':
 
-    Pearl = bot(
+    Bot = bot(
         intents=disnake.Intents.all(),
         asyncio_debug=True,
         )
-    Pearl.load_extensions("cogs")
+    Bot.load_extensions("cogs")
 
 
-    Pearl.run(settings.DISCORD_TOKEN)
+    Bot.run(settings.DISCORD_TOKEN)
